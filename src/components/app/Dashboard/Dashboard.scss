@@ -3,9 +3,12 @@
     width: 100%;
     grid-area: dashboard;
     color: #333333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.darkmode {
+.dark-theme {
     .dashboard {
         color: #eeeeee;
     }

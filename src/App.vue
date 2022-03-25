@@ -53,4 +53,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src='@/components/styles/App.scss' />
+<style lang="scss" src='@/styles/App.scss' />

@@ -1,0 +1,25 @@
+.display {
+    position: relative;
+    font-size: 18px;
+
+    > .code-card {
+        position: relative;
+        padding: 20px 40px;
+        border-bottom-color: rgba(0, 0, 0, 0.12);
+        border-width: 0 0 thin;
+        border-style: solid;
+
+        > .remove-button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            border: none;
+            background: none;
+            padding: 16px;
+            
+            > span {
+                cursor: pointer;
+            }
+        }
+    }
+}
