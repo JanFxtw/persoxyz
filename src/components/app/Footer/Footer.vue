@@ -22,6 +22,18 @@
             >
                 Impressum
             </button>
+
+            <button
+                class="footer-link theme-toggle"
+                @click="changeTheme"
+            >
+                <mdicon
+                    :class="{
+                        darkmode
+                    }"
+                    name="theme-light-dark"
+                />
+            </button>
         </div>
     </div>
 </template>
@@ -39,16 +51,16 @@ export default {
         { name: 'Datenschutz', event: 'privacy' },
         { name: 'Hilfe', event: 'help' },
       ],
+      darkmode: false,
     };
   },
   methods: {
     toggleModal(type) {
-      switch (type) {
-        case 'imprint':
-          break;
-        default:
-          break;
-      }
+      this.eventBus.emit('open-modal', { type });
+    },
+    changeTheme() {
+      this.darkmode = !this.darkmode;
+      this.eventBus.emit('change-theme', { darkmode: this.darkmode });
     },
   },
 };

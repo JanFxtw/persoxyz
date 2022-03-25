@@ -20,6 +20,14 @@
             background: none;
             border: none;
             outline: none;
+
+            svg {
+                transition: transform 0.2s;
+            }
+
+            > .darkmode > svg {
+                transform: rotate(180deg);
+            }
         }
 
         &.social {
