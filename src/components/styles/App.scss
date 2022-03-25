@@ -1,16 +1,2 @@
-html, body {
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    #app {
-        display: grid;
-        width: 100%;
-        height: 100%;
-        grid-template-rows: 100px auto 50px;
-        grid-template-areas:
-            "header"
-            "dashboard"
-            "footer";
-    }
-}
+@import './_fonts';
+@import './_app';
