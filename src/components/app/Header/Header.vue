@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <span> Personalausweisgenerator Generator </span>
+        <span> Personalausweis Generator </span>
     </div>
 </template>
 

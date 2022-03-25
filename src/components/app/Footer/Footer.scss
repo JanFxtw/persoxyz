@@ -1,6 +1,29 @@
 .footer {
     position: relative;
+    display: flex;
+    align-items: center;
     width: 100%;
-    background-color: #4f4f4f;
     grid-area: footer;
+    border-top-color: rgba(0, 0, 0, 0.12);
+    border-width: thin 0 0;
+    border-style: solid;
+
+    > .logos {
+        position: absolute;
+        font-size: 12px;
+        padding: 0 10px;
+
+        > .footer-link {
+            color: #000000;
+            padding: 0 10px;
+        }
+
+        &.social {
+            left: 0;
+        }
+
+        &.imprint {
+            right: 0;
+        }
+    }
 }
