@@ -25,7 +25,7 @@
 
             <button
                 class="footer-link theme-toggle"
-                @click="changeTheme"
+                @click="toggleTheme"
             >
                 <mdicon
                     :class="{
@@ -58,7 +58,7 @@ export default {
     toggleModal(type) {
       this.eventBus.emit('open-modal', { type });
     },
-    changeTheme() {
+    toggleTheme() {
       this.darkmode = !this.darkmode;
       this.eventBus.emit('change-theme', { darkmode: this.darkmode });
     },

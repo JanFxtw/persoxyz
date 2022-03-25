@@ -16,6 +16,32 @@ export default {
     Dashboard,
     Footer,
   },
+  mounted() {
+    this.checkTheme();
+
+    this.eventBus.on('change-theme', this.setTheme);
+  },
+  beforeUnmount() {
+    this.eventBus.off('changetheme', this.setTheme);
+  },
+  methods: {
+    checkTheme() {
+      const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+      if (!prefersDarkScheme.matches) { return; }
+
+      this.setTheme({ darkmode: true });
+    },
+    setTheme(config) {
+      const { darkmode } = config;
+
+      if (darkmode) {
+        document.body.classList.add('dark-theme');
+        return;
+      }
+
+      document.body.classList.remove('dark-theme');
+    },
+  },
 };
 </script>
 

@@ -1,12 +1,19 @@
 .header {
     position: relative;
     width: 100%;
-    background-color: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
     border-bottom-color: rgba(0,0,0,.12);
     border-width: 0 0 thin;
     border-style: solid;
+    color: #333333;
     grid-area: header;
+}
+
+.dark-theme {
+    .header {
+        color: #eeeeee;
+        border-bottom-color: rgba(0, 0, 0, 0.3);
+    }
 }

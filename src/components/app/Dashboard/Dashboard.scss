@@ -1,6 +1,12 @@
 .dashboard {
     position: relative;
     width: 100%;
-    background-color: #FFFFFF;
     grid-area: dashboard;
+    color: #333333;
+}
+
+.darkmode {
+    .dashboard {
+        color: #eeeeee;
+    }
 }
