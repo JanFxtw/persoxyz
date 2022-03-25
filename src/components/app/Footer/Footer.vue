@@ -2,8 +2,8 @@
     <div class="footer">
         <div class="social logos">
             <a
-                v-for="(logo, index) in social"
-                :key="index"
+                v-for="logo in social"
+                :key="logo"
                 :href="logo.link"
                 target="_blank"
                 class="footer-link"
@@ -14,9 +14,14 @@
         </div>
 
         <div class="imprint logos">
-            <span class="footer-link">Impressum</span>
-            <span class="footer-link">Datenschutz</span>
-            <span class="footer-link">Hilfe</span>
+            <button
+                v-for="imprintSlot in imprintData"
+                :key="imprintSlot"
+                class="footer-link"
+                @click="toggleModal('imprint')"
+            >
+                Impressum
+            </button>
         </div>
     </div>
 </template>
@@ -29,7 +34,22 @@ export default {
   data() {
     return {
       social,
+      imprintData: [
+        { name: 'Impressum', event: 'imprint' },
+        { name: 'Datenschutz', event: 'privacy' },
+        { name: 'Hilfe', event: 'help' },
+      ],
     };
+  },
+  methods: {
+    toggleModal(type) {
+      switch (type) {
+        case 'imprint':
+          break;
+        default:
+          break;
+      }
+    },
   },
 };
 </script>
