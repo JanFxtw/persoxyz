@@ -18,16 +18,24 @@ export default {
   },
   mounted() {
     this.checkTheme();
+    this.watchThemeChange();
 
     this.eventBus.on('change-theme', this.setTheme);
   },
   beforeUnmount() {
     this.eventBus.off('changetheme', this.setTheme);
+    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.checkTheme);
   },
   methods: {
+    watchThemeChange() {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.checkTheme);
+    },
     checkTheme() {
       const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-      if (!prefersDarkScheme.matches) { return; }
+      if (!prefersDarkScheme.matches) {
+        this.setTheme({ darkmode: false });
+        return;
+      }
 
       this.setTheme({ darkmode: true });
     },

@@ -18,9 +18,9 @@
                 v-for="imprintSlot in imprintData"
                 :key="imprintSlot"
                 class="footer-link"
-                @click="toggleModal('imprint')"
+                @click="toggleModal(imprintSlot.event)"
             >
-                Impressum
+                {{imprintSlot.name}}
             </button>
 
             <button
