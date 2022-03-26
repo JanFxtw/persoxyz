@@ -1,28 +1,24 @@
 <template>
     <div class="calculator">
-        <Display
-            v-model:codes="codes"
-        />
-        <Input />
+        <Display v-model:codes="codes" />
         <Generator @generate-new-code="generateNewCode" />
     </div>
 </template>
 
 <script>
 import Display from './Display';
-import Input from './Input.vue';
 import Generator from './Generator.vue';
 
 export default {
   name: 'Calculator',
   components: {
     Display,
-    Input,
     Generator,
   },
   data() {
     return {
       codes: [],
+      codeId: 0,
     };
   },
   mounted() {
@@ -42,8 +38,10 @@ export default {
       const part4 = expiration + this.checksum(expiration);
       const part5 = this.checksum(part1 + part3 + part4);
 
+      this.codeId += 1;
+
       this.codes.push({
-        name: 'Identitätsname',
+        name: `Identität-${this.codeId}`,
         date: Date.now(),
         part1,
         part2,

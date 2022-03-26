@@ -1,60 +1,12 @@
 .display {
     position: relative;
     font-size: 18px;
+    overflow-y: scroll;
+    height: 100%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 
-    > .code-card {
-        position: relative;
-        padding: 20px 40px;
-        background-color: #f0f0f0;
-        border-bottom-color: rgba(0, 0, 0, 0.12);
-        border-width: 0 0 thin;
-        border-style: solid;
-
-        > .card-id {
-            display: block;
-
-            > .identity-name {
-                background: none;
-                border: none;
-                outline: none;
-            }
-        }
-
-        > .remove-button {
-            position: absolute;
-            right: 0;
-            top: 0;
-            border: none;
-            background: none;
-            padding: 16px;
-            
-            > span {
-                cursor: pointer;
-            }
-        }
-
-        &:nth-child(2n)
-        {
-            background-color: #fbfbfb;
-        }
-    }
-}
-
-.dark-theme {
-    .display > .code-card {
-        background-color: #2e2e2e;
-
-        > .remove-button {
-            color: #eeeeee;
-        }
-
-        > .card-id > .identity-name {
-            color: #eeeeee;
-        }
-
-        &:nth-child(2n)
-        {
-            background-color: #313131;
-        }
+    &::-webkit-scrollbar {
+        display: none;
     }
 }

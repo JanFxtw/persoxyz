@@ -1,18 +1,26 @@
 <template>
     <div class="code-card">
-        <span class="card-id">
-            <mdicon name="account-edit" />
-            <input
-                class="identity-name"
-                :value="code.name"
-                @change="$emit('change-name', $event.target.value)"
-            />
-        </span>
+        <div class="base-information">
+            <span
+                class="element card-id"
+                title="Identitätsname"
+            >
+                <mdicon name="account-edit" />
+                <input
+                    class="identity-name"
+                    :value="code.name"
+                    @change="$emit('change-name', $event.target.value)"
+                />
+            </span>
 
-        <span class="card-id">
-            <mdicon name="clock-outline" />
-            {{ code.date }}
-        </span>
+            <span
+                class="element card-time"
+                title="Uhrzeit der Generierung"
+            >
+                <mdicon name="clock-outline" />
+                {{ realDate }}
+            </span>
+        </div>
 
         <div>
             Code:
@@ -41,5 +49,13 @@ export default {
       required: true,
     },
   },
+  computed: {
+    realDate() {
+      const date = new Date(this.code.date);
+      return date.toLocaleString('de-DE');
+    },
+  },
 };
 </script>
+
+<style lang="scss" src='./CodeCard.scss' />
