@@ -1,7 +1,7 @@
 <template>
     <div class="display">
         <CodeCard
-            v-for="(code, index) in codes"
+            v-for="(code, index) in reversedCodes"
             :key="index"
             :code="code"
             class="code-card"
@@ -28,10 +28,17 @@ export default {
       required: true,
     },
   },
+  computed: {
+    reversedCodes() {
+      const clonedCode = [...this.codes];
+      return clonedCode.reverse();
+    },
+  },
   methods: {
     removeCode(index) {
-      const clonedCodes = [...this.codes];
+      const clonedCodes = [...this.reversedCodes];
       clonedCodes.splice(index, 1);
+      clonedCodes.reverse();
       this.$emit('update:codes', clonedCodes);
     },
     changeName(index, e) {

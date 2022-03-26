@@ -5,13 +5,17 @@
     border-bottom-color: rgba(0, 0, 0, 0.12);
     border-width: 0 0 thin;
     border-style: solid;
+    display: grid;
+    grid-template-areas:
+        "base specific none"
+        "code code code";
 
     &:nth-child(2n)
     {
         background-color: #fbfbfb;
     }
 
-    > .base-information {
+    > .information {
 
         > .element {
             position: relative;
@@ -28,6 +32,18 @@
                     outline: none;
                 }
             }
+        }
+
+        &.base {
+            grid-area: base;
+        }
+
+        &.specific {
+            grid-area: specific;
+        }
+
+        &.code {
+            grid-area: code;
         }
     }
 
