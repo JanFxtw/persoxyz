@@ -1,6 +1,9 @@
 <template>
     <div class="calculator">
-        <Display v-model:codes="codes" />
+        <Display
+            v-model:codes="codes"
+            @add-new-code="generateNewCode"
+        />
         <Generator @generate-new-code="generateNewCode" />
     </div>
 </template>

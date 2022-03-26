@@ -13,7 +13,8 @@
     > .information-wrapper {
         display: grid;
         grid-template-areas:
-            "base specific none";
+            "base specific";
+        grid-auto-columns: minmax(0, 1fr);
         padding: 20px 40px;
 
         > .information {
@@ -46,10 +47,30 @@
     }
 
     > .code {
+        display: flex;
         border-top-color: rgba(0, 0, 0, 0.12);
         border-width: thin 0 0;
         border-style: solid;
         padding: 10px 45px;
+
+        > .copy-button {
+            border: none;
+            background: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        > .code-output {
+            width: 80%;
+            background: none;
+            border: none;
+            outline: none;
+            font-family: monospace;
+
+            &.textarea {
+                height: 65px;
+            }
+        }
     }
 
     > .remove-button {

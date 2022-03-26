@@ -5,7 +5,7 @@
             :key="index"
             :code="code"
             class="code-card"
-            @remove-code="removeCode(index)"
+            @remove-code="removeCode(index, $event)"
             @change-name="changeName(index, $event)"
         />
     </div>
@@ -21,6 +21,7 @@ export default {
   },
   emits: [
     'update:codes',
+    'add-new-code',
   ],
   props: {
     codes: {
@@ -35,11 +36,15 @@ export default {
     },
   },
   methods: {
-    removeCode(index) {
+    removeCode(index, e) {
       const clonedCodes = [...this.reversedCodes];
       clonedCodes.splice(index, 1);
       clonedCodes.reverse();
       this.$emit('update:codes', clonedCodes);
+
+      if (e.reload) {
+        this.$emit('add-new-code');
+      }
     },
     changeName(index, e) {
       const { value } = e.target;

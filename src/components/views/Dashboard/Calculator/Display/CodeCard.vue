@@ -48,12 +48,38 @@
             </div>
         </div>
 
-        <div class="code">
-            <div class="element">
-                Code:
-                {{ card.residenceCode }} {{ card.nationalityCode }}
-                {{ card.birthdayCode }} {{ card.expirationCode }} {{ card.checkSum }}
-            </div>
+        <div
+            class="code"
+            title="Alte Personalausweisnummer"
+        >
+            <button
+                class="copy-button"
+                @click="copyText"
+            >
+                <mdicon name="content-copy" />
+            </button>
+            <input
+                ref="output"
+                class="code-output"
+                :value="generateOldCode"
+            />
+        </div>
+
+        <div
+            class="code"
+            title="Neue Personalausweisnummer"
+        >
+            <button
+                class="copy-button"
+                @click="copyText"
+            >
+                <mdicon name="content-copy" />
+            </button>
+            <textarea
+                ref="output"
+                class="code-output textarea"
+                :value="generateNewCode"
+            />
         </div>
 
         <button
@@ -86,6 +112,20 @@ export default {
     },
   },
   computed: {
+    generateOldCode() {
+      const {
+        residence, nationality, birthday, expiration, checkSum,
+      } = this.card;
+
+      return `${residence}${nationality} ${birthday} ${expiration} ${checkSum}`;
+    },
+    generateNewCode() {
+      const {
+        residence, nationality, birthday, expiration, checkSum,
+      } = this.card;
+
+      return `IDD<<${residence}<<<<<<<<<<<<<<<\n${birthday}<${expiration}${nationality}<<<<<<<<<<<<<${checkSum}\nNACHNAME<<VORNAME<ZWEITNAME<<<`;
+    },
     cityName() {
       const { residence } = this.code;
       const cit = citys.find((city) => city.bkz === residence) ?? { city: 'Keine Stadt gefunden.' };
@@ -99,7 +139,7 @@ export default {
       return this.calculateDate(this.code.birthday);
     },
     expirationDate() {
-      return this.calculateDate(this.code.expiration);
+      return this.calculateDate(this.code.expiration, true);
     },
     card() {
       const {
@@ -113,30 +153,35 @@ export default {
       const checkSum = this.checksum(residenceCode + birthdayCode + expirationCode);
 
       return {
-        residenceCode,
-        nationalityCode,
-        birthdayCode,
-        expirationCode,
+        residence: residenceCode,
+        nationality: nationalityCode,
+        birthday: birthdayCode,
+        expiration: expirationCode,
         checkSum,
       };
     },
   },
   methods: {
-    calculateDate(date) {
-      const birthday = date.match(/.{1,2}/g);
-
+    copyText() {
+      const { output } = this.$refs;
+      output.select();
+      output.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(this.generateOldCode);
+    },
+    calculateDate(date, future) {
+      const calculatedDate = date.match(/.{1,2}/g);
       const currentYear = new Date().getFullYear().toString().substr(-2);
 
-      if (birthday[0] < currentYear) {
-        birthday[0] = `20${birthday[0]}`;
+      if (calculatedDate[0] < currentYear || future) {
+        calculatedDate[0] = `20${calculatedDate[0]}`;
       } else {
-        birthday[0] = `19${birthday[0]}`;
+        calculatedDate[0] = `19${calculatedDate[0]}`;
       }
 
       return {
-        day: birthday[2],
-        month: birthday[1],
-        year: birthday[0],
+        day: calculatedDate[2],
+        month: calculatedDate[1],
+        year: calculatedDate[0],
       };
     },
     checksum(inp) {
@@ -145,9 +190,6 @@ export default {
 
       for (let j = 0; j < inp.length; j += 1) {
         switch (i) {
-          case 1:
-            cs += inp.substring(j, j + 1) * 7; i += 1;
-            break;
           case 2:
             cs += inp.substring(j, j + 1) * 3; i += 1;
             break;
@@ -155,11 +197,17 @@ export default {
             cs += inp.substring(j, j + 1) * 1; i = 1;
             break;
           default:
+            cs += inp.substring(j, j + 1) * 7; i += 1;
             break;
         }
       }
 
       cs %= 10;
+
+      if (Number.isNaN(cs)) {
+        this.$emit('remove-code', { reload: true });
+      }
+
       return cs;
     },
   },
