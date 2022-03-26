@@ -24,15 +24,11 @@
                 display: block;
                 padding: 4px 0;
 
-                &.card-id {
-                    display: block;
-
-                    > .identity-name {
-                        color: #44aece;
-                        background: none;
-                        border: none;
-                        outline: none;
-                    }
+                > .identity-name {
+                    color: #44aece;
+                    background: none;
+                    border: none;
+                    outline: none;
                 }
             }
 
@@ -66,10 +62,6 @@
             border: none;
             outline: none;
             font-family: monospace;
-
-            &.textarea {
-                height: 65px;
-            }
         }
     }
 
@@ -96,10 +88,21 @@
             color: #eeeeee;
         }
 
-        > .base-information {
+        > .information-wrapper {
+            color: #eeeeee;
 
-            > .element &.card-id > .identity-name {
+            > .information > .element > .identity-name {
                 color: #44aeceba;
+            }
+        }
+
+        > .code {
+            > .copy-button {
+                color: #eeeeee;
+            }
+
+            > .code-output {
+                color: #eeeeee;
             }
         }
 

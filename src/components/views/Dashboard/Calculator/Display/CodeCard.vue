@@ -54,12 +54,12 @@
         >
             <button
                 class="copy-button"
-                @click="copyText"
+                @click="copyText('old-output')"
             >
                 <mdicon name="content-copy" />
             </button>
             <input
-                ref="output"
+                ref="old-output"
                 class="code-output"
                 :value="generateOldCode"
             />
@@ -71,13 +71,13 @@
         >
             <button
                 class="copy-button"
-                @click="copyText"
+                @click="copyText('new-output')"
             >
                 <mdicon name="content-copy" />
             </button>
-            <textarea
-                ref="output"
-                class="code-output textarea"
+            <input
+                ref="new-output"
+                class="code-output"
                 :value="generateNewCode"
             />
         </div>
@@ -124,7 +124,7 @@ export default {
         residence, nationality, birthday, expiration, checkSum,
       } = this.card;
 
-      return `IDD<<${residence}<<<<<<<<<<<<<<<\n${birthday}<${expiration}${nationality}<<<<<<<<<<<<<${checkSum}\nNACHNAME<<VORNAME<ZWEITNAME<<<`;
+      return `IDD ${residence} ${birthday} ${expiration}${nationality} ${checkSum} NACHNAME VORNAME ZWEITNAME`;
     },
     cityName() {
       const { residence } = this.code;
@@ -162,8 +162,8 @@ export default {
     },
   },
   methods: {
-    copyText() {
-      const { output } = this.$refs;
+    copyText(type) {
+      const output = this.$refs[type];
       output.select();
       output.setSelectionRange(0, 99999);
       navigator.clipboard.writeText(this.generateOldCode);

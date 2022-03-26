@@ -63,7 +63,7 @@ export default {
       const xCY = xCD.getYear();
       const xCM = xCD.getMonth();
       xCD = xCD.getDate();
-      const xYrs = 25;
+      const xYrs = Math.floor(Math.random() * 52) + 18; // alter
       if (xYrs == null) { return false; }
       let xNY = xCY - xYrs;
       const xCDT = new Date(xNY, xCM, xCD, 0, 0, 0);
@@ -79,8 +79,7 @@ export default {
       const xCY = xCD.getYear();
       const xCM = xCD.getMonth();
       xCD = xCD.getDate();
-      const xYrs = 2025;
-      if (xYrs == null) { return false; }
+      const xYrs = xCY; // beantragungsdatum
       let xNY = xCY + xYrs;
       const xCDT = new Date(xNY, xCM, xCD, 0, 0, 0);
       const xNM = Math.floor(Math.random() * 12) + 1;
