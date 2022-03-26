@@ -1,50 +1,55 @@
 .code-card {
     position: relative;
-    padding: 20px 40px;
     background-color: #f0f0f0;
     border-bottom-color: rgba(0, 0, 0, 0.12);
     border-width: 0 0 thin;
     border-style: solid;
-    display: grid;
-    grid-template-areas:
-        "base specific none"
-        "code code code";
 
     &:nth-child(2n)
     {
         background-color: #fbfbfb;
     }
 
-    > .information {
+    > .information-wrapper {
+        display: grid;
+        grid-template-areas:
+            "base specific none";
+        padding: 20px 40px;
 
-        > .element {
-            position: relative;
-            display: block;
-            padding: 4px 0;
+        > .information {
 
-            &.card-id {
+            > .element {
+                position: relative;
                 display: block;
+                padding: 4px 0;
 
-                > .identity-name {
-                    color: #44aece;
-                    background: none;
-                    border: none;
-                    outline: none;
+                &.card-id {
+                    display: block;
+
+                    > .identity-name {
+                        color: #44aece;
+                        background: none;
+                        border: none;
+                        outline: none;
+                    }
                 }
             }
-        }
 
-        &.base {
-            grid-area: base;
-        }
+            &.base {
+                grid-area: base;
+            }
 
-        &.specific {
-            grid-area: specific;
+            &.specific {
+                grid-area: specific;
+            }
         }
+    }
 
-        &.code {
-            grid-area: code;
-        }
+    > .code {
+        border-top-color: rgba(0, 0, 0, 0.12);
+        border-width: thin 0 0;
+        border-style: solid;
+        padding: 10px 45px;
     }
 
     > .remove-button {

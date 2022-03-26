@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import citys from '@/assets/json/citys.json';
 import Display from './Display';
 import Generator from './Generator.vue';
 
@@ -19,6 +20,7 @@ export default {
     return {
       codes: [],
       codeId: 0,
+      citys,
     };
   },
   mounted() {
@@ -26,28 +28,22 @@ export default {
   },
   methods: {
     generateNewCode() {
-      const residence = this.randomNumber(4);
+      const residence = this.citys[Math.floor(Math.random() * this.citys.length)].bkz;
       const sequential = this.randomNumber(5);
       const nationality = 'D';
-      const birtday = this.generateBirthday();
+      const birthday = this.generateBirthday();
       const expiration = this.generateExpiration();
-
-      const part1 = residence + sequential + this.checksum(residence + sequential);
-      const part2 = nationality;
-      const part3 = birtday + this.checksum(birtday);
-      const part4 = expiration + this.checksum(expiration);
-      const part5 = this.checksum(part1 + part3 + part4);
 
       this.codeId += 1;
 
       this.codes.push({
         name: `Identität-${this.codeId}`,
         date: Date.now(),
-        part1,
-        part2,
-        part3,
-        part4,
-        part5,
+        residence,
+        sequential,
+        nationality,
+        birthday,
+        expiration,
       });
     },
     randomNumber(length) {
@@ -76,13 +72,11 @@ export default {
       return ((xNY < 10) ? '0' : '') + xNY + ((xNM < 10) ? '0' : '') + xNM + ((xND < 10) ? '0' : '') + xND;
     },
     generateExpiration() {
-      // const currentYear = new Date().getFullYear();
-
       let xCD = new Date();
       const xCY = xCD.getYear();
       const xCM = xCD.getMonth();
       xCD = xCD.getDate();
-      const xYrs = 2025; // Ablaufdatum
+      const xYrs = 2025;
       if (xYrs == null) { return false; }
       let xNY = xCY + xYrs;
       const xCDT = new Date(xNY, xCM, xCD, 0, 0, 0);
@@ -107,28 +101,6 @@ export default {
       }
 
       return Math.floor(Math.random() * 30) + 1;
-    },
-    checksum(inp) {
-      let i = 1;
-      let cs = 0;
-      for (let j = 0; j < inp.length; j += 1) {
-        switch (i) {
-          case 1:
-            cs += inp.substring(j, j + 1) * 7; i += 1;
-            break;
-          case 2:
-            cs += inp.substring(j, j + 1) * 3; i += 1;
-            break;
-          case 3:
-            cs += inp.substring(j, j + 1) * 1; i = 1;
-            break;
-          default:
-            break;
-        }
-      }
-
-      cs %= 10;
-      return cs;
     },
   },
 };

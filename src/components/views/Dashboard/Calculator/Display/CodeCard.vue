@@ -1,48 +1,58 @@
 <template>
     <div class="code-card">
-        <div class="base information">
-            <span
-                class="element card-id"
-                title="Identitätsname"
-            >
-                <mdicon name="account-edit" />
-                <input
-                    class="identity-name"
-                    :value="code.name"
-                    @change="$emit('change-name', $event.target.value)"
-                />
-            </span>
+        <div class="information-wrapper">
+            <div class="base information">
+                <span
+                    class="element card-id"
+                    title="Identitätsname"
+                >
+                    <mdicon name="account-edit" />
+                    <input
+                        class="identity-name"
+                        :value="code.name"
+                        @change="$emit('change-name', $event.target.value)"
+                    />
+                </span>
 
-            <span
-                class="element card-time"
-                title="Uhrzeit der Generierung"
-            >
-                <mdicon name="clock-outline" />
-                {{ realDate }}
-            </span>
+                <span
+                    class="element card-time"
+                    title="Uhrzeit der Generierung"
+                >
+                    <mdicon name="clock-outline" />
+                    {{ currentDate }}
+                </span>
+            </div>
+
+            <div class="specific information">
+                <span
+                    class="element"
+                    title="Geburtsdatum"
+                >
+                    <mdicon name="cake-variant-outline" />
+                    {{ birthdayDate.day }}.{{ birthdayDate.month }}.{{ birthdayDate.year }}
+                </span>
+                <span
+                    class="element"
+                    title="Land"
+                >
+                    <mdicon name="map-marker-outline" />
+                    {{ cityName.plz }} {{ cityName.city }}
+                </span>
+                <span
+                    class="element"
+                    title="Ablaufdatum"
+                >
+                    <mdicon name="alarm" />
+                    {{ expirationDate.day }}.{{ expirationDate.month }}.{{ expirationDate.year }}
+                </span>
+            </div>
         </div>
 
-        <div class="specific information">
-            <span
-                class="element"
-                title="Geburtsdatum"
-            >
-                <mdicon name="cake-variant-outline" />
-                {{ realBirthday[2] }}.{{ realBirthday[1] }} {{ realBirthday[0] }}
-            </span>
-            <span
-                class="element"
-                title="Land"
-            >
-                <mdicon name="map-marker-outline" />
-                Deutschland
-            </span>
-        </div>
-
-        <div class="code information">
+        <div class="code">
             <div class="element">
                 Code:
-                {{ code.part1 }} {{ code.part2 }} {{ code.part3 }} {{ code.part4 }} {{ code.part5 }}
+                {{ card.residenceCode }} {{ card.nationalityCode }}
+                {{ card.birthdayCode }} {{ card.expirationCode }} {{ card.checkSum }}
             </div>
         </div>
 
@@ -56,12 +66,19 @@
 </template>
 
 <script>
+import citys from '@/assets/json/citys.json';
+
 export default {
   name: 'CodeCard',
   emits: [
     'change-name',
     'remove-code',
   ],
+  data() {
+    return {
+      citys,
+    };
+  },
   props: {
     code: {
       type: Object,
@@ -69,14 +86,44 @@ export default {
     },
   },
   computed: {
-    realDate() {
+    cityName() {
+      const { residence } = this.code;
+      const cit = citys.find((city) => city.bkz === residence) ?? { city: 'Keine Stadt gefunden.' };
+      return cit;
+    },
+    currentDate() {
       const date = new Date(this.code.date);
       return date.toLocaleString('de-DE');
     },
-    realBirthday() {
-      let raw = this.code.part3;
-      raw = raw.slice(0, -1);
-      const birthday = raw.match(/.{1,2}/g);
+    birthdayDate() {
+      return this.calculateDate(this.code.birthday);
+    },
+    expirationDate() {
+      return this.calculateDate(this.code.expiration);
+    },
+    card() {
+      const {
+        residence, sequential, nationality, birthday, expiration,
+      } = this.code;
+
+      const residenceCode = residence + sequential + this.checksum(residence + sequential);
+      const nationalityCode = nationality;
+      const birthdayCode = birthday + this.checksum(birthday);
+      const expirationCode = expiration + this.checksum(expiration);
+      const checkSum = this.checksum(residenceCode + birthdayCode + expirationCode);
+
+      return {
+        residenceCode,
+        nationalityCode,
+        birthdayCode,
+        expirationCode,
+        checkSum,
+      };
+    },
+  },
+  methods: {
+    calculateDate(date) {
+      const birthday = date.match(/.{1,2}/g);
 
       const currentYear = new Date().getFullYear().toString().substr(-2);
 
@@ -86,7 +133,34 @@ export default {
         birthday[0] = `19${birthday[0]}`;
       }
 
-      return birthday;
+      return {
+        day: birthday[2],
+        month: birthday[1],
+        year: birthday[0],
+      };
+    },
+    checksum(inp) {
+      let i = 1;
+      let cs = 0;
+
+      for (let j = 0; j < inp.length; j += 1) {
+        switch (i) {
+          case 1:
+            cs += inp.substring(j, j + 1) * 7; i += 1;
+            break;
+          case 2:
+            cs += inp.substring(j, j + 1) * 3; i += 1;
+            break;
+          case 3:
+            cs += inp.substring(j, j + 1) * 1; i = 1;
+            break;
+          default:
+            break;
+        }
+      }
+
+      cs %= 10;
+      return cs;
     },
   },
 };
