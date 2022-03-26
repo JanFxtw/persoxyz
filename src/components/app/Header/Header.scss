@@ -9,6 +9,16 @@
     border-style: solid;
     color: #333333;
     grid-area: header;
+
+    > .delete-history {
+        position: absolute;
+        right: 0;
+        padding: 0 20px;
+        background: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
 }
 
 .dark-theme {

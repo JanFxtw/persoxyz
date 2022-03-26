@@ -1,6 +1,6 @@
 .code-card {
     position: relative;
-    background-color: #f0f0f0;
+    background-color: #e9e7e7;
     border-bottom-color: rgba(0, 0, 0, 0.12);
     border-width: 0 0 thin;
     border-style: solid;
@@ -15,7 +15,7 @@
         grid-template-areas:
             "base specific";
         grid-auto-columns: minmax(0, 1fr);
-        padding: 20px 40px;
+        padding: 10px 40px;
 
         > .information {
 
@@ -92,7 +92,7 @@
             color: #eeeeee;
 
             > .information > .element > .identity-name {
-                color: #44aeceba;
+                color: #2785a2;
             }
         }
 
@@ -108,7 +108,7 @@
 
         &:nth-child(2n)
         {
-            background-color: #313131;
+            background-color: #3d3d3d;
         }
     }
 }

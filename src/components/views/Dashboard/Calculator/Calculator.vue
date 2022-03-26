@@ -28,8 +28,17 @@ export default {
   },
   mounted() {
     this.generateNewCode();
+
+    this.eventBus.on('delete-history', this.deleteHistory);
+  },
+  beforeUnmount() {
+    this.eventBus.off('delete-history', this.deleteHistory);
   },
   methods: {
+    deleteHistory() {
+      this.codes = [];
+      this.codeId = 0;
+    },
     generateNewCode() {
       const residence = this.citys[Math.floor(Math.random() * this.citys.length)].bkz;
       const sequential = this.randomNumber(5);
