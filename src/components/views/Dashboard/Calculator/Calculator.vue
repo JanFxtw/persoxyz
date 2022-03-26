@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Display from './Display.vue';
+import Display from './Display';
 import Input from './Input.vue';
 import Generator from './Generator.vue';
 
@@ -43,7 +43,13 @@ export default {
       const part5 = this.checksum(part1 + part3 + part4);
 
       this.codes.push({
-        part1, part2, part3, part4, part5,
+        name: 'Identitätsname',
+        date: Date.now(),
+        part1,
+        part2,
+        part3,
+        part4,
+        part5,
       });
     },
     randomNumber(length) {
